@@ -1,24 +1,25 @@
 package main
 
 import (
-    "github.com/Pelegrinetti/uller/package/db"
-    "github.com/Pelegrinetti/uller/worker/sensor"
-    "github.com/jinzhu/gorm"
-    "github.com/sirupsen/logrus"
-    "time"
+	"time"
+
+	"github.com/Pelegrinetti/uller/package/db"
+	"github.com/Pelegrinetti/uller/worker/sensor"
+	"github.com/jinzhu/gorm"
+	"github.com/sirupsen/logrus"
 )
 
-func probe(database *gorm.DB) {
-    logrus.Info("Running probe...")
-    
-    metric := sensor.GetSensorData()
-    metric.Create(database)
-    
-    time.Sleep(time.Second * 3)
-    
-    logrus.Info("Probe finished!")
-    
-    probe(database)
+func cron(database *gorm.DB) {
+	logrus.Info("Running cron...")
+
+	metric := sensor.GetSensorData()
+	metric.Create(database)
+
+	time.Sleep(time.Second * 3)
+
+	logrus.Info("Cron finished!")
+
+	cron(database)
 }
 
 func main() {
@@ -29,6 +30,6 @@ func main() {
 	db.Migrate(database)
 	defer logrus.Info("Closing database connection!")
 	defer database.Close()
-	
-	probe(database)
+
+	cron(database)
 }
