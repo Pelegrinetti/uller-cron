@@ -1,12 +1,16 @@
 package sensor
 
-import "github.com/Pelegrinetti/uller/package/db"
+import (
+	"math/rand"
+
+	"github.com/Pelegrinetti/uller/package/store"
+)
 
 // GetSensorData get all sensor's data
-func GetSensorData() db.Metric {
-    return db.Metric{
-        Lumity: 14.5214,
-        Temperature: 18.531,
-        Humidity: 35.6732,
-    }
+func GetSensorData() store.Metric {
+	return store.Metric{
+		Lumity:      rand.Int63(),
+		Temperature: rand.Int63(),
+		Humidity:    rand.Int63(),
+	}
 }

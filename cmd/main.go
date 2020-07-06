@@ -1,35 +1,35 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
-	"github.com/Pelegrinetti/uller/package/db"
+	"github.com/Pelegrinetti/uller/package/store"
+
 	"github.com/Pelegrinetti/uller/worker/sensor"
-	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
 )
 
-func cron(database *gorm.DB) {
+func cron() {
 	logrus.Info("Running cron...")
 
 	metric := sensor.GetSensorData()
-	metric.Create(database)
-
-	time.Sleep(time.Second * 3)
+	store.Store(metric)
 
 	logrus.Info("Cron finished!")
 
-	cron(database)
+	time.Sleep(time.Second * 3)
+
+	cron()
 }
 
 func main() {
 	logrus.Info("Running!")
 
-	logrus.Info("Creating database instance...")
-	database := db.New()
-	db.Migrate(database)
-	defer logrus.Info("Closing database connection!")
-	defer database.Close()
+	metric := sensor.GetSensorData()
+	store.Store(metric)
 
-	cron(database)
+	fmt.Println(store.Read())
+
+	cron()
 }
