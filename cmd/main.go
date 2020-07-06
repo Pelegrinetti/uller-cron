@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Pelegrinetti/uller/package/store"
+	"github.com/Pelegrinetti/uller-cron/package/store"
 
-	"github.com/Pelegrinetti/uller/worker/sensor"
+	"github.com/Pelegrinetti/uller-cron/worker/sensor"
 	"github.com/sirupsen/logrus"
 )
 

@@ -3,7 +3,7 @@ package sensor
 import (
 	"math/rand"
 
-	"github.com/Pelegrinetti/uller/package/store"
+	"github.com/Pelegrinetti/uller-cron/package/store"
 )
 
 // GetSensorData get all sensor's data
