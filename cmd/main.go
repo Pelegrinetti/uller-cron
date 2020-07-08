@@ -27,12 +27,8 @@ func cron() {
 
 func reading(pin rpio.Pin) {
 	fmt.Println("Reading...")
-	count := 0
-	for pin.Read() == 0 {
-		count++
-	}
 
-	fmt.Printf("LDR: %d\n", count)
+	fmt.Printf("LDR: %d\n", pin.Read())
 
 	time.Sleep(time.Millisecond * 300)
 
@@ -47,7 +43,7 @@ func main() {
 		logrus.WithError(err).Error("Error while opening GPIO connection.")
 	}
 
-	pin := rpio.Pin(12)
+	pin := rpio.Pin(21)
 
 	fmt.Println(pin)
 	pin.Input()
