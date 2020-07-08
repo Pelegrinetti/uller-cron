@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"time"
 
 	"github.com/Pelegrinetti/uller-cron/package/store"
@@ -19,6 +20,14 @@ func cron() {
 	time.Sleep(time.Second * 3)
 
 	cron()
+}
+
+func init() {
+	err := os.MkdirAll("/tmp/uller/binaries", os.ModePerm)
+
+	if err != nil {
+		logrus.WithError(err).Panic("Error while creating Uller folder.")
+	}
 }
 
 func main() {

@@ -21,7 +21,7 @@ type Metric struct {
 // Store write metrics data
 func Store(metric Metric) {
 	currentTime := time.Now()
-	f, osErr := os.Create(fmt.Sprintf("binaries/%d.bin", currentTime.Unix()))
+	f, osErr := os.Create(fmt.Sprintf("/tmp/uller/binaries/%d.bin", currentTime.Unix()))
 	if osErr != nil {
 		logrus.WithError(osErr).Error("Error while creating data file.")
 	}
@@ -45,13 +45,7 @@ func Read() []Metric {
 		logrus.WithError(rErr).Error("Error while compiling RegExp.")
 	}
 
-	wd, wdErr := os.Getwd()
-	if wdErr != nil {
-		logrus.WithError(wdErr).Error("Error while getting workdir.")
-	}
-
-	root := fmt.Sprintf("%s/binaries", wd)
-	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+	err := filepath.Walk("/tmp/uller/binaries", func(path string, info os.FileInfo, err error) error {
 		if r.MatchString(path) {
 			files = append(files, path)
 		}
