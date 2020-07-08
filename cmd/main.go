@@ -1,13 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"time"
 
-	"github.com/stianeikeland/go-rpio/v4"
-
 	"github.com/Pelegrinetti/uller-cron/package/store"
-
 	"github.com/Pelegrinetti/uller-cron/worker/sensor"
 	"github.com/sirupsen/logrus"
 )
@@ -25,35 +21,11 @@ func cron() {
 	cron()
 }
 
-func reading(pin rpio.Pin) {
-	fmt.Println("Reading...")
-
-	fmt.Printf("LDR: %d\n", pin.Read())
-
-	time.Sleep(time.Millisecond * 300)
-
-	reading(pin)
-}
-
 func main() {
 	logrus.Info("Running!")
 
-	err := rpio.Open()
-	if err != nil {
-		logrus.WithError(err).Error("Error while opening GPIO connection.")
-	}
+	metric := sensor.GetSensorData()
+	store.Store(metric)
 
-	pin := rpio.Pin(21)
-
-	fmt.Println(pin)
-	pin.Input()
-
-	reading(pin)
-
-	// metric := sensor.GetSensorData()
-	// store.Store(metric)
-
-	// fmt.Println(store.Read())
-
-	// cron()
+	cron()
 }
