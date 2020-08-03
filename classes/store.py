@@ -2,7 +2,6 @@ import os
 import time
 import json
 
-
 class Store:
     def __init__(self, store_folder):
         self.store_folder = store_folder
