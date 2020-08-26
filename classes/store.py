@@ -2,6 +2,7 @@ import os
 import time
 import json
 
+
 class Store:
     def __init__(self, store_folder):
         self.store_folder = store_folder
@@ -23,8 +24,14 @@ class Store:
             file.seek(0)
             file.write(json.dumps(data))
             file.truncate()
+            file.close()
 
     def get(self):
         with open(self.file_path, 'r') as file:
             data = json.loads(file.read())
             return data['metrics']
+
+    def truncate(self):
+        with open(self.file_path, 'w') as file:
+            json.dump({'metrics': []}, file)
+            file.close()
