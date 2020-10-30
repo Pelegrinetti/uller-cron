@@ -21,8 +21,10 @@ class Metric:
 
     def sendData(self, data,  many=False):
         headers = {'content-type': 'application/json'}
-        request = requests.post(
-            settings.ULLER_API + ('/metrics' if many else '/metric'), data=json.dumps(data), headers=headers, params={'key': settings.ULLER_API_KEY})
+        url = settings.ULLER_API + ('/metrics' if many else '/metric')
+        payload = data if not many else {'metrics': data}
+        request = requests.post(url, data=json.dumps(
+            payload), headers=headers, params={'key': settings.ULLER_API_KEY})
         return request
 
     def localStore(self, data):
